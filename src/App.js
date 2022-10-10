@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import { Button } from './Button/Button';
+import { Header } from './Header/header';
+import { Hero } from './Hero/hero';
 
 function App() {
   return (
@@ -9,6 +12,8 @@ function App() {
         <p>
           Codeacademy.lt <code></code> React paskaita!
         </p>
+        <Header />
+        <Button>Kazkas</Button>
         <a
           className="App-link"
           href="https://codeacademy.lt"
@@ -17,6 +22,7 @@ function App() {
         >
           Codeacademy
         </a>
+        <Hero>Bet kas</Hero>
       </header>
     </div>
   );
