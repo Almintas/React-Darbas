@@ -1,36 +1,21 @@
-import { useEffect, useState } from 'react';
 import './App.css';
+import { Routes, Route, Link } from 'react-router-dom';
+import { HomePage } from './Home Page/HomePage';
+import { AboutPage } from './About Page/AboutPage';
+import { ContactsPage } from './Contacts Page/ContactsPage';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-    .then((res) => res.json())
-    .then((data) => {
-      setPosts(data);
-    })
-  }, [])
-
-  const handleChangeInput = (event) => {
-    const value = event.target.value;
-    setInputValue(value);
-  }
 
   return (
     <div className="App">
-      <input onChange={handleChangeInput} />
-      {posts
-      .filter((post) => {
-        return post.title.indexOf(inputValue) >= 0
-      })
-      .map((post) => (
-        <div key={post.id}>
-          <h2>{post.title}</h2>
-          <p>{post.body}</p>
-        </div>
-      ))}
+      <Link to='/'>Home</Link>
+      <Link to='/about'>About</Link>
+      <Link to='/contacts'>Contacts</Link>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/contacts' element={<ContactsPage />} />
+      </Routes>
     </div>
   );
 }
