@@ -1,19 +1,25 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { HomePage } from './Home Page/HomePage';
-import { AboutPage } from './About Page/AboutPage';
 import { ContactsPage } from './Contacts Page/ContactsPage';
-import { Navigation } from './Navigation/Navigation';
+import { PageLayout } from './PageLayout';
+import { LoginPage } from './LoginPage/LoginPage';
+import { useState } from 'react';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLogin = () => setUser({ username: 'Petras' })
+  const handleLogout = () => setUser(null)
 
   return (
     <div className="App">
-      <Navigation />
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/about' element={<AboutPage />} />
-        <Route path='/contacts' element={<ContactsPage />} />
+        <Route path='/' element={<PageLayout user={user} onLogout={handleLogout} />}>
+          <Route index element={<HomePage />} />
+          <Route path='/contacts' element={<ContactsPage />} />
+        </Route>
+        <Route path='/login' element={<LoginPage onLogin={handleLogin} />} />
       </Routes>
     </div>
   );
