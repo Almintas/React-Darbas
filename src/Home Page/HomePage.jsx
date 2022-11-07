@@ -1,12 +1,12 @@
-import styles from './HomePage.module.scss';
-
-export const HomePage = () => {
+const HomePage = () => {
     const homePageStyles = {
         color: 'yellow'
     }
 
     return (
-        <div className={styles['home-page-title']}>
+        <div>
             Home Page</div>
     )
 }
+
+export default HomePage;
