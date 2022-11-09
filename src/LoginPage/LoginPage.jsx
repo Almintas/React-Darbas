@@ -4,7 +4,6 @@ const LoginPage = ({ onLogin }) => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        onLogin()
         navigate('/');
     }
 
