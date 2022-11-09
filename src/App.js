@@ -1,58 +1,58 @@
-import React from 'react';
+import React, { useState, createContext } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { RouteSuspense } from './components/RouteSuspense/RouteSuspense';
+import { PageLayout } from './components/PageLayout/PageLayout';
+// import { Route } from './components/Route/Route';
+// import HomePage from './views/HomePage/HomePage';
+// import ContactsPage from './views/ContactsPage/ContactsPage';
+// import AboutPage from './views/AboutPage/AboutPage';
+
 import './App.css';
-import { Routes, Link, Route } from 'react-router-dom';
-import { PageLayout } from './PageLayout';
-import { useState } from 'react';
 
-const HomePage = React.lazy(() => import('./Home Page/HomePage'));
-const ContactsPage = React.lazy(() => import('./Contacts Page/ContactsPage'));
-const AboutPage = React.lazy(() => import('./AboutPage/AboutPage'));
-const LoginPage = React.lazy(() => import('./LoginPage/LoginPage'));
+const HomePage = React.lazy(() => import('./views/HomePage/HomePage'));
+const ContactsPage = React.lazy(() => import('./views/ContactsPage/ContactsPage'));
+const AboutPage = React.lazy(() => import('./views/AboutPage/AboutPage'));
+const LoginPage = React.lazy(() => import('./views/LoginPage/LoginPage'));
 
-export const ThemeContext = React.createContext();
+export const ThemeContext = createContext();
 
 function App() {
-
   const [user, setUser] = useState(null);
   const [isDark, setIsDark] = useState();
 
-  const handleThemeChange = () => setIsDark(!isDark);
-
   const handleLogin = (username) => setUser({ username });
+
+  const handleThemeChange = () => setIsDark(!isDark);
 
   return (
     <div className="App">
-      <Link to='/'>Home</Link>
-      <Link to='/contacts'>Contacts</Link>
-      <Link to='/about'>About</Link>
-      <Link to='/login'>Login</Link>
-
-      <ThemeContext.Provider value={{ isDark, changeTheme: handleThemeChange, themeColor: 'yellow' }}>
-      <Routes>
-        <Route index element={
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <PageLayout user={user} />
-            <HomePage />
-          </React.Suspense>
-        } />
-        <Route path='/contacts' element={
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <ContactsPage />
-          </React.Suspense>
-        } />
-        <Route path='/about' element={
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <AboutPage />
-          </React.Suspense>
-        } />
-        <Route>
-          <Route path='/login' element={
-          <React.Suspense fallback={<div>Loading</div>}>
-            <LoginPage onLogin={handleLogin} />
-          </React.Suspense>
+      <ThemeContext.Provider
+        value={{ isDark, changeTheme: handleThemeChange, themeColor: 'yellow' }}
+      >
+        <Routes>
+          <Route path="/" element={<PageLayout user={user} />}>
+            <Route index element={
+              <RouteSuspense>
+                <HomePage />
+              </RouteSuspense>
+            } />
+            <Route path="/contacts" element={
+              <RouteSuspense>
+                <ContactsPage />
+              </RouteSuspense>
+            } />
+            <Route path="/about" element={
+              <RouteSuspense>
+                <AboutPage />
+              </RouteSuspense>
+            } />
+          </Route>
+          <Route path="/login" element={
+            <RouteSuspense>
+              <LoginPage onLogin={handleLogin} />
+            </RouteSuspense>
           } />
-        </Route>
-      </Routes>
+        </Routes>
       </ThemeContext.Provider>
     </div>
   );
